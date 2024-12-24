@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hehe</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: purple; /* Set background color to purple */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #quiz-container {
+            text-align: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            position: absolute;
+            z-index: 1;
+        }
+
+        .button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #ddd;
+        }
+
+        #question {
+            position: relative;
+        }
+
+        #flash-message {
+            display: none;
+            font-size: 30px;
+            color: white; /* Set text color to white */
+            font-weight: bold;
+            z-index: 2;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Animation for sparkles or bubbles */
+        @keyframes sparkle {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 0.5;
+            }
+            50% {
+                transform: translateY(-20px) scale(1.5);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(0) scale(1);
+                opacity: 0.5;
+            }
+        }
+
+        .sparkle {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            width: 10px;
+            height: 10px;
+            animation: sparkle 1.5s infinite;
+            opacity: 0.5;
+        }
+
+        .sparkle:nth-child(odd) {
+            animation-delay: 0.5s;
+        }
+
+        .sparkle:nth-child(even) {
+            animation-delay: 1s;
+        }
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <h2 id="question">Laro Roblox? :)</h2>
+        <div id="choices">
+            <button class="button" id="sige" onclick="moveAll(); nextQuestion('sige')">Sige</button>
+            <button class="button" id="abu" onclick="moveAll()">Abu</button>
+        </div>
+    </div>
+    <div id="flash-message">Open ka na Roblox :)</div>
+
+    <script>
+        const quizContainer = document.getElementById("quiz-container");
+        const questionElement = document.getElementById("question");
+        const sigeButton = document.getElementById("sige");
+        const abuButton = document.getElementById("abu");
+        const flashMessage = document.getElementById("flash-message");
+        const body = document.body;
+
+        // Center the quiz-container initially
+        function centerQuiz() {
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+
+            // Center position
+            const xPos = (screenWidth - quizContainer.offsetWidth) / 2;
+            const yPos = (screenHeight - quizContainer.offsetHeight) / 2;
+
+            quizContainer.style.left = xPos + "px";
+            quizContainer.style.top = yPos + "px";
+        }
+
+        // Call the center function to position quiz container in the center on load
+        centerQuiz();
+
+        // Function to move all elements to a random position
+        function moveAll() {
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+
+            // Generate random position for the quiz container
+            const randomX = Math.floor(Math.random() * (screenWidth - quizContainer.offsetWidth));
+            const randomY = Math.floor(Math.random() * (screenHeight - quizContainer.offsetHeight));
+
+            // Move the quiz container to the new position
+            quizContainer.style.left = randomX + "px";
+            quizContainer.style.top = randomY + "px";
+        }
+
+        // Function to update the question and choices based on the button clicked
+        function nextQuestion(choice) {
+            if (choice === 'sige') {
+                // First, return to the center
+                centerQuiz();
+
+                // Change the question to "Sure?" and update the choices
+                setTimeout(() => {
+                    questionElement.textContent = "Sure?";
+                    const choicesDiv = document.getElementById("choices");
+                    choicesDiv.innerHTML = `
+                        <button class="button" onclick="moveAll(); nextQuestion('yes')">Yes</button>
+                        <button class="button" onclick="moveAll(); nextQuestion('no')">No</button>
+                    `;
+                }, 500); // Delay the change to allow centering first
+            }
+
+            if (choice === 'yes') {
+                // Hide quiz container and show the flash message "Open ka na Roblox :)"
+                quizContainer.style.display = 'none';
+                flashMessage.style.display = 'block';
+
+                // Add sparkles animation to the sides of the screen
+                createSparkles();
+            }
+        }
+
+        // Create sparkles or bubbles on the sides
+        function createSparkles() {
+            for (let i = 0; i < 30; i++) {
+                const sparkle = document.createElement("div");
+                sparkle.classList.add("sparkle");
+
+                // Randomize position of sparkle
+                sparkle.style.left = `${Math.random() * window.innerWidth}px`;
+                sparkle.style.top = `${Math.random() * window.innerHeight}px`;
+
+                body.appendChild(sparkle);
+            }
+        }
+
+        // Ensure the quiz container is positioned absolutely
+        quizContainer.style.position = "absolute";
+    </script>
+</body>
+</html>
